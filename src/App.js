@@ -12,9 +12,11 @@ export default class App extends Component {
     this.state={
       code: "",
       input:"",
-      language: "",
+      language: "c++",
       path: "a/b/",
-      filename:"one"
+      filename:"one",
+      buttonname:"Compile",
+      buttomdisabled:false
     };
   }
   onChangeCode=async(e)=>{
@@ -46,15 +48,26 @@ onChangeLanguage=async (e)=>{
 }
 handleSubmit= async (e)=>{
   e.preventDefault();
+  this.setState(function(prevval){
+    return {
+      ...prevval,buttonname:'Loading....',buttomdisabled:true
+    }
+  });
   console.log(this.state);
-  const response = await fetch("http://192.168.2.109:3001/compilefile", {
+  const response = await fetch("https://192.168.2.109:3001/compilefile/", {
     method: "POST",
     mode: "cors",
     headers: {
-        // "Authorization": `Bearer: $`,
+        //"Authorization": `Bearer: $`,
         "Content-Type": "application/json"
     },
+    
     body: JSON.stringify(this.state)
+});
+this.setState(function(prevval){
+  return {
+    ...prevval,buttonname:'Compile Again',buttomdisabled:false
+  }
 });
 console.log(response.json())
 }
@@ -68,7 +81,7 @@ render(){
       <InputArea onChangeInput={this.onChangeInput} />
       <MoreOptionsCompiler onChangeLanguage={this.onChangeLanguage}/>
       <br />
-      <button type="submit">Compile</button>
+      <button disabled={this.state.buttomdisabled} type="submit">{this.state.buttonname}</button>
       <br />
       <OutputArea />
       </form>
