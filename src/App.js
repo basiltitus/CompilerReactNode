@@ -5,7 +5,6 @@ import InputArea from "./components/input_area_component";
 import MoreOptionsCompiler from "./components/more_options_compiler";
 import OutputArea from "./components/output_area_component";
 import axios from "axios";
-import { func } from "prop-types";
 
 export default class App extends Component {
   constructor() {
@@ -22,13 +21,14 @@ export default class App extends Component {
     };
   }
   onChangeCode = async (e) => {
+    console.log(e);
     await this.setState(function (prevval) {
       return {
         ...prevval,
-        code: e.target.value,
+        code: e,
       };
     });
-    //console.log(this.state);
+    console.log(this.state);
   };
 
   onChangeInput = async (e) => {
@@ -59,7 +59,7 @@ export default class App extends Component {
     });
     console.log(this.state);
     const response = await axios.post(
-      "http://localhost:3001/compilefile",
+      "http://192.168.1.101:3001/compilefile",
       this.state
     );
     console.log(response.data);
