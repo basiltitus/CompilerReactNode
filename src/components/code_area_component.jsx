@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
+import AceEditor from 'react-ace';
+import 'brace/mode/javascript'
+import 'brace/mode/c_cpp'
+import 'brace/theme/monokai'
+import { Switch } from 'antd';
 
 
 export default class CodeArea extends Component{
@@ -13,29 +14,32 @@ export default class CodeArea extends Component{
         }
         
     }
+    onChange=(checked)=> {
+      console.log(`switch to ${checked}`);
+    }
     render(){
-        return<div>
+        return<div><center>
             <br/>
             <h3>
                 Code Area
             </h3>
-            
-            <textarea type="textarea" 
+            <Switch defaultChecked onChange={onChange} />
+    <br />
+    <Switch checkedChildren="1" unCheckedChildren="0" />
+    <br />
+    <Switch
+      checkedChildren={<CheckOutlined />}
+      unCheckedChildren={<CloseOutlined />}
+      defaultChecked
+    />
+            <AceEditor width="90%" height="300px" mode="c_cpp" theme="monokai" fontSize='20px' />
+            {/* <textarea type="textarea" 
           name="codearea"
           rows={10}
           cols={150}
           onChange={this.props.onChangeCode}
-        />
-{/* <Editor
-        value={this.state.code}
-        onValueChange={this.props.onChangeCode}
-        highlight={code => highlight(code, languages.js)}
-        padding={10}
-        style={{
-          fontFamily: '"Fira code", "Fira Mono", monospace',
-          fontSize: 12,
-        }}
-      /> */}
+        /> */}
+      </center>
         </div>
 
         
