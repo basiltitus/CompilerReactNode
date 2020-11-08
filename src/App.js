@@ -5,6 +5,7 @@ import InputArea from './components/input_area_component'
 import MoreOptionsCompiler from'./components/more_options_compiler'
 import OutputArea from './components/output_area_component'
 import axios from 'axios'
+import { func } from 'prop-types';
 
 export default class App extends Component {
   constructor(){
@@ -54,23 +55,19 @@ handleSubmit= async (e)=>{
     }
   });
   console.log(this.state);
-  const response = await fetch("https://192.168.2.109:3001/compilefile/", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-        //"Authorization": `Bearer: $`,
-        "Content-Type": "application/json"
-    },
-    
-    body: JSON.stringify(this.state)
-});
-this.setState(function(prevval){
-  return {
-    ...prevval,buttonname:'Compile Again',buttomdisabled:false
-  }
-});
-console.log(response.json())
-}
+   axios.post("https://192.168.1.105/compilefile",JSON.stringify(this.state)).then(function(response){
+      console.log(response.data)
+      this.setState(function(prevval){
+        return {
+          ...prevval,buttonname:'Compile Again',buttomdisabled:false
+        }
+      });
+    })
+    // body: JSON.stringify(this.state)
+
+
+//console.log(response.json())
+};
   
 
 render(){
